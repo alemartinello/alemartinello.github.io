@@ -7,7 +7,11 @@
 <img src="{{ user.avatar_url }}" class="circle mb-3" style="max-width: 150px;">
 <h1 class="{% if site.style == 'dark' %}text-white{% endif %} mb-2 lh-condensed">{% if user.name %}{{ user.name }}{% else %}{{ user.login }}{% endif %}</h1>
 <p class="mb-3 f4 {% if site.style == 'dark' %}text-white{% else %}text-gray{% endif %}">
-  {{ user.bio }}
+  <!-- {{ user.bio }} -->
+  Economist by training, data-sciencin' at <a
+  href="http://www.nationalbanken.dk/en" target="_blank">Danmarks
+  Nationalbanken</a> trying to convince policy-makers one fancy graph at the
+  time.
 </p>
 
 {% if include.metadata %}

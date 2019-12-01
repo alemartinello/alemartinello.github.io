@@ -8,13 +8,9 @@
       {{ content }}
     </div>
 
-    <div class="my-6">
-      {% include projects.html %}
-    </div>
-
-    {% if site.topics %}
+    {% if site.pinned-projects %}
       <div class="my-6">
-        {% include interests.html %}
+        {% include pinned-projects.html %}
       </div>
     {% endif %}
 
@@ -23,6 +19,8 @@
         {% include thoughts.html %}
       </div>
     {% endunless %}
+    
+    {% include projects.html %}
   </div>
 {% else %}
   <div class="d-md-flex min-height-full {% unless site.style == 'dark' %}border-md-bottom{% endunless %}">
@@ -38,15 +36,15 @@
           </div>
         {% endunless %}
 
-        {% include projects.html %}
-
-        {% if site.topics %}
-          {% include interests.html %}
+        {% if site.pinned-projects %}
+          {% include pinned-projects.html %}
         {% endif %}
 
         {% unless posts_total == 0 %}
           {% include thoughts.html %}
         {% endunless %}
+        
+        {% include projects.html %}
       </div>
     </div>
   </div>
