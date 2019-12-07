@@ -1,5 +1,5 @@
 layout: sidebar
-style: dark
+style: light
 
 plugins:
   - jekyll-octicons
@@ -47,12 +47,10 @@ social_media:
   # youtube: your_username
 
 pinned-projects:
-  - name: Project 1
-    web_url: https://github.com/topics/css
-    image_url: https://raw.githubusercontent.com/github/explore/6c6508f34230f0ac0d49e847a326429eefbfc030/topics/css/css.png
+  - name: "Long-run saving dynamics: Evidence from unexpected inheritances"
+    web_url: https://raw.githubusercontent.com/alemartinello/Papers/master/long-run-saving-dynamics/paper.pdf
+    image_url: https://raw.githubusercontent.com/alemartinello/Papers/master/long-run-saving-dynamics/pic.png
 
   - name: Project 2
 
   - name: Project 3
-    web_url: https://github.com/topics/sass
-    image_url: https://raw.githubusercontent.com/github/explore/6c6508f34230f0ac0d49e847a326429eefbfc030/topics/sass/sass.png
