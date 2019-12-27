@@ -1,5 +1,40 @@
 {% include header.html %}
 
+<style>
+    button.accordion {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    background-color: #f8f8f8;
+    }
+    button.accordion.active, button.accordion:hover {
+    background-color: #f8f8f8;
+    }
+    button.accordion:after {
+    content: '[+]';
+    font-size: 90%;
+    /* color:#777; */
+    float: left;
+    margin-left: 10px;
+    }
+    button.accordion.active:after {
+    content: "[\2212]"; /* Wide minus sign */
+    }
+    
+    div.panel {
+    padding: 10px;
+    margin-top: 5px;
+    display: none;
+    background-color: #F1F1F1;
+    color: #666;
+    font-size: 100%;
+    }
+    div.panel.show {
+    display: block !important;
+}
+</style>
+
 {% if site.layout == 'stacked' %}
   <div class="container-lg py-6 p-responsive text-center">
     {% include masthead.html metadata=false %}
@@ -31,3 +66,15 @@
 {% endif %}
 
 {% include footer.html %}
+
+<script> 
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function(){
+        this.classList.toggle("active");
+        this.parentNode.nextElementSibling.classList.toggle("show");
+  }
+}
+</script>
