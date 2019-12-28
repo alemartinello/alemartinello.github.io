@@ -5,6 +5,10 @@ published: false
 
 **Hello world**, this is my first Jekyll blog post.
 
+$$
+\alpha
+$$
+
 I hope you like it!
 
 # Highlighter

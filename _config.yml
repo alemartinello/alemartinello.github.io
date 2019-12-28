@@ -57,4 +57,6 @@ pinned-projects:
 
   - name: "Seeing through the spin: The effect of news sentiment on firms' stock market performance"
     web_url: http://www.nationalbanken.dk/en/publications/Pages/2019/10/Working-Paper-Seeing-Through-the-Spin-The-Effect-of-News-Sentiment-on-Firms-Stock-Market-Performance.aspx
-    image_url: 
+    image_url: https://raw.githubusercontent.com/alemartinello/Papers/master/censor/pic.png
+
+markdown: kramdown
