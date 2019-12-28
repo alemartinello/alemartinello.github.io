@@ -49,7 +49,7 @@ social_media:
 pinned-projects:
   - name: "Long-run saving dynamics: Evidence from unexpected inheritances"
     web_url: https://github.com/alemartinello/long-run-saving-dynamics
-    image_url: https://raw.githubusercontent.com/alemartinello/Papers/master/long-run-saving-dynamics/pic.png
+    image_url: https://raw.githubusercontent.com/alemartinello/long-run-saving-dynamics/master/paper/pic.png
 
   - name: "Placement optimization in refugee resettlement"
     web_url: https://swopec.hhs.se/lunewp/abs/lunewp2018_023.htm
