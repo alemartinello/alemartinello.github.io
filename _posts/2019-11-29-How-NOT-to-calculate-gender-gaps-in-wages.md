@@ -437,7 +437,7 @@ print(hownotto_gg['ability'], '\n')
 And there we go. Despite men and women being on average absolutely identical in terms of ability, in this particular case we get the apparently paradoxical result that women on average outsmart men within **each occupation type**. Such is the terrifying, reality-warping power of bad controls. The Dark Side of the Force is like pre-school material in comparison.
 
 {% raw %}
-It's natural then that, on average, within each occupation group, women should earn more. What should then be the proper measure of gender gap? Well, consider that we have 10 individual of each gender, each of them a doppelganger in terms of ability of each other. So for each doppelganger couple $j\in{1,\ldots,10}$ we could compare the wage of each woman $w^{f}_{j}$ with that of her male doppelganger $w^{m}_{j}$, take the difference in wages, and average these numbers: 
+It's natural then that, on average, within each occupation group, women should earn more. What should then be the proper measure of gender gap? Well, consider that we have 10 individual of each gender, each of them a doppelganger in terms of ability of each other. So for each doppelganger couple $$j\in{1,\ldots,10}$$ we could compare the wage of each woman $$ w^{f}_{j}$$ with that of her male doppelganger $$w^{m}_{j}$$, take the difference in wages, and average these numbers:
 {% endraw %}
 
 {% raw %}
