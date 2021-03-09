@@ -1,64 +1,41 @@
 ---
-# title: "Write to Your Past Self - Git: Why use it for analyses, and how"
 published: false
 ---
 
-# **TYPS** - **T**o **Y**our **P**ast **S**elf
+# **TYPS** - Why git
 
-## What's **TYPS**?
+![git](https://git-scm.com/images/logos/1color-orange-lightbg@2x.png)
 
-I recently read a twitter thread where someone (I'd bet the brilliant [@vboykis](https://twitter.com/vboykis), but I can't track the  post) said that when writing blog posts on data science, one should imagine writing them to her past self, about 4 years earlier.
+More and more university courses in economics have started teaching students how to use git, and why using it is extremely valuable. My coauthor [Jeppe Druedahl](https://sites.google.com/view/jeppe-druedahl/home), for example, shares material of his advanced classes via GitHub, and encourages students to create a well-structured repository for their assigments and course projects.
 
->**What, among the knowledge you have now, would you have liked to know then? Which notes would you pass to yourself back in time?**
+I was not so lucky. Most of my former colleagues at economics department do not use git, nor they know why they would use it.
 
-This line of thinking resonates with me.
+## Starting from zero
 
-My past self who started to dabble in python and data science had a peculiar profile. I had a good background in statistics and econometrics, and lots of experience working with messy real-life dataset. However, I had zero formal training in coding practices. Sure, I thought I was good at it for an economist: I wrote ados in stata, had semi-automated data cleaning procedure, and I wrote my code such that a whole analysis, with graph and tables, could be reproduce through a single file!
+The goal of this post is to show how we use it in our team, and why it is useful to us. [Ahdering to my own guidelines for **TYPS**](http://alemartinello.com/2021/02/17/TYPS-what/), I will not explain how git works or how a software developer uses it. There's plenty of good guides for that, first and foremost [Git's own documentation](https://git-scm.com/doc).
 
-![Oh my sweet summer child](https://memegenerator.net/img/instances/72138443/oh-my-sweet-summer-child.jpg)
+My goal will be instead to show why even the most basic usage of git can be extremely useful for researchers and data analysis, giving a few practical examples.
 
-I knew *nothing*.
+## Why version control?
 
-I did not know what git was. I did not know about environments. I did not know SQL and data flows. I did not know about virtual machines. Most importantly, I did not know what was the point of all this.
+Git is a version control software, which might beg the question of what is version control at all. Version control is the practice of simply keeping track of changes in your code.
 
-There's a big risk here however.
+Simply having a folder where you keep old versions of files is techincally a form of version control. Most people do it all the times for word and powerpoint documents. I used to back-up my do-files every once in a while.
 
-If you, like I was, are an economist who'd like to learn how to apply some advanced analytics and best coding practices to the way you work, the amount of stuff you are told you should know is staggering. So let me just go ahead and start with the most important piece of advice I have:
+    root/
+    ├── my_script.do
+    ├── backup/
+    │   ├── my_script_20200601.do
+    │   ├── my_script_20200913.do
+    │   ├── my_script_20201129.do
+    │   ├── my_script_20210120.do
 
->**TYPS: You do not have to be a software engineer to be a good data analyst/data scientist**.
+This system is however a pretty bad version of version control. You can hardly keep track of what exactly changed across versions, and the "*every once in a while*" is rather dangerous. Way too often I saved backups of files where multiple things changed at once, and tracing back why my results suddently changed was a mess.
 
-Remember comparative advantages. A good data science environment should have specialized profiles: Data engineers are crucial for automating tasks and building efficient systems, but that does not need to be your job.
+Git induces you to be much more systematic in your versioning, and allows to trace back specific changes in your code. While it really shines when collaborating wth other people, it can greatly help you even on a solitary project.
 
-If your job is to provide business insights from messy data, which is what lots of businesses want, the core compentences you need are not those of an engineer. **You do not need to be a database architect or an open source developer. You need to be able to make sense of messy data.**
+## Using git on a project where you are the only developer
 
-Yet, to help you structure your work, to help you collaborate with others, to help your team moving from insight to execution, knowing some basic tools is invaluable.
+I like to imagine git as a system of checkpoints in a videogame. Every time you reach a milestone, you write a specific function, or you construct a class, you get the chance of saving a checkpoint of your work. That's amazingly useful even if you work alone.
 
-![But why?](https://www.memecreator.org/static/images/memes/4193677.jpg)
-
-Yeah, that's precisely the point.
-
-You'll find a ton of posts and material online on how to build a project environment, how to use git etc. This type of material is often excellent, and I have no doubt anyone can learn from it.
-
-However, it's hard to navigate it and figure out exactly what you'll need, if you don't know anything about it. A lot of material is very extensive, and to be honest, when I knew nothing of all this, made me feel a dumbass and intimidated me.
-
-So, **TYPS**. Rather than providing guidelines, I'd really like to tell you **why** these tools are useful as a data analyst/data scientist whose primary task is to get insights out of data, and how I currently use them.
-
-Most importantly, **I do not want to write this series of post to impress you, but to help you**. That's a way too easy mistake to do, as I know from my experience teaching at Lund University.
-
-I do not want to use jargon, show off how easy stuff is, and somehow imply that people that don't know at least the basics of what I'll write are morons.
-
-This stuff is hard at the beginning. It will become easy quickly with practice, I promise. But it's hard, and that's ok. Do not try to pretend otherwise.
-
-> **TYPS: Embracing what you don't know is the easiest way to learn it.**
-
- I have never met a colleague who would not be happy to teach me what they know, with passion and patience, as long as they are approached without posturing. I learned a lot from my colleagues with a background in engineering, and I wish I approached them sooner.
-
- I'll try to apply the same lack of posturing here. As *there is no stupid question*, likewise *there is no stupid explanation*. For the same reason you start teaching perfect competition before oligopoly, Newtonian phisics before relativity, OLS before maximum likelihood, a lot of what I will write will be highly simplified and at times technically imprecise.
-
-But I wish I knew it sooner.
-
-## Planned TYPS
-
-* Why git
-* Python environments
-* SQL and data as a living entity
+First, you never have to worry
