@@ -14,6 +14,6 @@ At Danmarks Nationalbank we have studied both the academic and non-academic lite
 
 In [this memo](https://www.nationalbanken.dk/en/publications/Pages/2022/04/AI-and-machine-learning-in-the-financial-sector-Five-focus-points.aspx) we summarize our findings, and suggest five focus points for financial institution to consider when moving from static statistical models to self-learning, dynamic AI systems.
 
-![Five focus points for AI governance](../files/pics_posts/AI_5_focus_points.png)
+![Five focus points for AI governance](files/pics_posts/AI_5_focus_points.png)
 
 Have a read, and if you have any input, let us know!
