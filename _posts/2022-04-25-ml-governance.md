@@ -3,7 +3,6 @@ title: "AI and machine learning in the financial sector: Five focus points"
 published: true
 ---
 
-# AI and machine learning in the financial sector: Five focus points
 You might know that the #europeancommission has submitted a [proposal for an AI act](https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52021PC0206).
 
 The proposal defines high-risk AI systems, requires minimum governance structures for such systems, and imposes large fines for lack of compliance, up to 6% of a firm's global turnover.

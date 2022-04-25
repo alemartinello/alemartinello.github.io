@@ -4,8 +4,6 @@ published: true
 ---
 
 
-# Gender Gaps In Earnings: How NOT To
-
 A typical mistake in assessing gender gaps in earnings is trying to adjust it for endogenous variables, like job type and title. This mistake is commonly made in public debates, with various pundits claiming that the *actual* gender gap is much lower that what people report, because we need to compare men and women working in the same position.
 
 This argument is persuasive at a superficial level: that in order to assess whether discrimination actually takes place in the labor market we should compare men and women *everything else equal* makes sense, intuitively. In reality, assessing the extent of discrimination and quantifying this effect is extremely challenging and complex. This small note does not aim at showing how we can detect discrimination in the labor market. I would refer to a course in advanced labor economics for that. More modestly, this note aims at using an elementary example to debunk this common mistake.
