@@ -29,9 +29,9 @@ projects:
     # - repo-name
 
 social_media:
-  twitter: ale_martinello
+  # twitter: ale_martinello
   linkedin: alessandro-martinello-a2766823
-  # behance: your_username
+  bluesky: alemartinello.com
   # dribbble: your_username
   # facebook: your_username
   # hackerrank: your_username
@@ -55,8 +55,8 @@ pinned-projects:
     web_url: https://swopec.hhs.se/lunewp/abs/lunewp2018_023.htm
     image_url: https://raw.githubusercontent.com/alemartinello/Papers/master/annie-moore/pic.png
 
-  - name: "Seeing through the spin: The effect of news sentiment on firms' stock market performance"
-    web_url: http://www.nationalbanken.dk/en/publications/Pages/2019/10/Working-Paper-Seeing-Through-the-Spin-The-Effect-of-News-Sentiment-on-Firms-Stock-Market-Performance.aspx
-    image_url: https://raw.githubusercontent.com/alemartinello/Papers/master/censor/pic.png
+  - name: "Substantial transmission of SARS-CoV-2 through casual contact in retail stores: Evidence from matched administrative microdata on card payments and testing"
+    web_url: https://www.pnas.org/doi/10.1073/pnas.2317589121
+    image_url: https://www.pnas.org/cms/10.1073/pnas.2317589121/asset/2d912c70-696f-478b-8e2e-e2a59963fa16/assets/images/large/pnas.2317589121fig05.jpg
 
 markdown: kramdown
