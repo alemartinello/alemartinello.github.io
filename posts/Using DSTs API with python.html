@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2022-02-04">
+<meta name="description" content="Learn how to extract data from Danmark Statistiks Statistikbanken with python">
+
+<title>Using DST’s API from python</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-a652c116b21f402b806f3cbc5a90424b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tidbits.html"> 
+<span class="menu-text">Tidbits</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://dk.linkedin.com/in/alessandro-martinello-a2766823" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-linkedin"></i></a>
+    <a href="https://github.com/alemartinello" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#step-1-understand-what-a-table-has-to-offer-and-how-it-is-structured" id="toc-step-1-understand-what-a-table-has-to-offer-and-how-it-is-structured" class="nav-link active" data-scroll-target="#step-1-understand-what-a-table-has-to-offer-and-how-it-is-structured">Step 1: Understand what a table has to offer and how it is structured</a>
+  <ul class="collapse">
+  <li><a href="#the-hard-way" id="toc-the-hard-way" class="nav-link" data-scroll-target="#the-hard-way">The hard way</a></li>
+  <li><a href="#the-easy-way" id="toc-the-easy-way" class="nav-link" data-scroll-target="#the-easy-way">The easy way</a></li>
+  </ul></li>
+  <li><a href="#step-2-get-the-data-you-need" id="toc-step-2-get-the-data-you-need" class="nav-link" data-scroll-target="#step-2-get-the-data-you-need">Step 2: Get the data you need</a>
+  <ul class="collapse">
+  <li><a href="#the-hard-way-1" id="toc-the-hard-way-1" class="nav-link" data-scroll-target="#the-hard-way-1">The hard way</a></li>
+  <li><a href="#the-easy-er-way" id="toc-the-easy-er-way" class="nav-link" data-scroll-target="#the-easy-er-way">The easy-er way</a></li>
+  </ul></li>
+  <li><a href="#and-thats-it" id="toc-and-thats-it" class="nav-link" data-scroll-target="#and-thats-it">And that’s it!</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Using DST’s API from python</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">data tools</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Learn how to extract data from <a href="https://statistikbanken.dk/statbank5a/default.asp?w=1920">Danmark Statistiks Statistikbanken</a> with python
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 4, 2022</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">December 6, 2024</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>I am a huge fan of Denmark Statistics. Their <a href="https://www.statistikbanken.dk/statbank5a/default.asp?w=1920">Statistikbanken</a> contains a wealth of data on the Danish society, economy, and population.</p>
+<p>Not only all these data are publicy available, but DST has for years also provided access to all their published data tables through an API, documented <a href="https://www.dst.dk/da/Statistik/brug-statistikken/muligheder-i-statistikbanken/api">here</a>. The API access makes it extremely easy to access and use data. Yet unless one has already some experience in accessing APIs, using it might be complex for an occasional student or analyst.</p>
+<p>This notebook provides a quick guide on how to access data from DST’s Statsbanken through their API, and presents a utility class I wrote to more easily access data tables for analytical purposes.</p>
+<p>The only explicit dependency of that utility is <code>pandas</code>, which is anyway an extremely widespread package.</p>
+<p>Both notebook and class can be found at <a href="https://github.com/alemartinello/dstapi">this GitHub repository</a>.</p>
+<p>The utility can be installed by</p>
+<pre><code>pip install git+https://github.com/alemartinello/dstapi.git</code></pre>
+<div id="b715d018-2922-406e-91d3-cbf6da20fcf0" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start by importing necessary packages</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> StringIO</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dstapi <span class="im">import</span> DstApi <span class="co"># The helper class</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://www.dst.dk/da/Statistik/brug-statistikken/muligheder-i-statistikbanken/api#funktion">DST’s API</a> has four separate function calls to programmatically navigate around the published tables. This guide assumes that the analysist has scouted Statistikbanken already, and has identified the one or two tables from which data should be extracted. For these purposes, we only need two function calls: <code>tableinfo</code> and <code>data</code>.</p>
+<ul>
+<li><code>data</code>, as the name implies, is the function that allows us to get data from a specific table</li>
+<li><code>tableinfo</code> provides all the necessary metadata of a specific table. This latter function is crucial and extremely useful, as it allows to know how a table is structured, and which filters to pass to a <code>data</code> call.</li>
+</ul>
+<p>The standard process is to begin by obtaining the necessary information from <code>tableinfo</code>, and then construct the call to pass to <code>data</code>.</p>
+<p>This guide will proceed by for each step of the process first showing how to do it by directly using <code>requests</code> (and <code>pandas</code>), and second showing how the utility class <code>DstApi</code> can facilitate the process.</p>
+<section id="step-1-understand-what-a-table-has-to-offer-and-how-it-is-structured" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-understand-what-a-table-has-to-offer-and-how-it-is-structured">Step 1: Understand what a table has to offer and how it is structured</h2>
+<p>Our primary example will be DST’s table <a href="https://www.statistikbanken.dk/METROX1"><em>METROX1</em></a>, which reports an index measuring the weekly amount of passengers travelling by metro in Copenhagen. This index was developed to measure the population’s response to the COVID pandemic. The table is small and simple, allowing for quick experimentation.</p>
+<section id="the-hard-way" class="level3">
+<h3 class="anchored" data-anchor-id="the-hard-way">The hard way</h3>
+<p>As we know the table’s name/id we can start by accessing the API directly through the python package <code>requests</code>, and ask about the table’s metadata (<code>tableinfo</code>).</p>
+<p>An API call is composed by a main web address, a function call, and a set of parameters. The main web address is <code>https://api.statbank.dk/v1</code>. The function call in this case is <code>tableinfo</code>. The set of necessary parameters, per documentation, is the <code>id</code> of the table and the <code>format</code> in which we’d like to receive the information. We’ll pick <code>"metrox1"</code> for the first (note that the table-id parameter is case-sensitive), and <code>"JSON"</code> for the second.</p>
+<p>The API at DST can be called through both <code>requests.get()</code> and <code>requests.post()</code>. DST’s documentation recommends using <code>post</code>, because as the number and complexity of parameters grows (with some of them containing non-standard Danish characters) it’s harder to embed them in an URL. However, as the call to <code>tableinfo</code> is simple, below I provide examples of using both methods.</p>
+<p>Note that the <code>.json()</code> method of the <code>request.Response</code> object serves to return the response content (which we requested in JSON format) rather than the object itself. That’s just to print out the output in the notebook.</p>
+<p>This function returns a wealth of information. Not just the table id and description, but also the contact of the statistics responsible, and, crucially, <em>names</em> and <strong><em>values</em></strong> of the variables defining the table. In this case <code>SÆSON</code> and <code>Tid</code>.</p>
+<p>The code below shows how to get the table’s metadata, and prints the beginning of the <code>JSON</code> file returned.</p>
+<div id="3e427aaf-a5ba-4a1f-a507-ba4dfece4c28" class="cell" data-tags="[]" data-execution_count="24">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Directly embed parameters in the URL with response.get()</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>requests.get(<span class="st">'https://api.statbank.dk/v1'</span> <span class="op">+</span> <span class="st">'/tableinfo'</span> <span class="op">+</span> <span class="st">"?id=metrox1&amp;format=JSON"</span>).json()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Pass a dictionary of parameters to requests.get()</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {<span class="st">'id'</span>: <span class="st">'metrox1'</span>, <span class="st">'format'</span>: <span class="st">'JSON'</span>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>requests.get(<span class="st">'https://api.statbank.dk/v1'</span> <span class="op">+</span> <span class="st">'/tableinfo'</span>, params<span class="op">=</span>params).json()</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Use response.post() - note the change in the name of the parameter about the table's name</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># I'm also adding here a language parameter - most tables are available in both Danish and English</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {<span class="st">'table'</span>: <span class="st">'metrox1'</span>, <span class="st">'format'</span>: <span class="st">'JSON'</span>, <span class="st">'lang'</span>:<span class="st">'en'</span>}</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>table_metadata <span class="op">=</span> requests.post(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'https://api.statbank.dk/v1'</span> <span class="op">+</span> <span class="st">'/tableinfo'</span>, json<span class="op">=</span>params</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>).json()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">str</span>(table_metadata).replace(<span class="st">','</span>, <span class="st">',</span><span class="ch">\n</span><span class="st">'</span>)[<span class="dv">0</span>:<span class="dv">500</span>] <span class="op">+</span> <span class="st">'</span><span class="ch">\n</span><span class="st">...'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'id': 'METROX1',
+ 'text': 'Workday passenger index in the Copenhagen Metro (experimental statistics)',
+ 'description': 'Workday passenger index in the Copenhagen Metro (experimental statistics) by seasonal adjustment and time',
+ 'unit': 'Index',
+ 'suppressedDataValue': '0',
+ 'updated': '2022-06-16T08:00:00',
+ 'active': False,
+ 'contacts': [{'name': 'Peter Ottosen',
+ 'phone': '+4530429191',
+ 'mail': 'pot@dst.dk'}],
+ 'documentation': None,
+ 'footnote': {'text': 'Data are indexed against an averag
+...</code></pre>
+</div>
+</div>
+<p>This wealth of information is already fantastic. In that metadata there’s pretty much anything you need to figure out if you can actually use the table, and eventually how you want to select the data (seasonally ajusted? For 2020 only?). Yet that JSON file might be tough to digest, especially for more complex tables. Those cases might require preprocessing and a different type of visualization. That’s where the <code>DstApi</code> helper class comes into play.</p>
+</section>
+<section id="the-easy-way" class="level3">
+<h3 class="anchored" data-anchor-id="the-easy-way">The easy way</h3>
+<p><code>DstApi</code> has two methods for examining metadata.</p>
+<p>The first one, <code>tablesummary</code>, summarizes the main metadata information: * The id and description of the table * The last update time * A table with the main available cuts of the data. Each row corresponds to a variable against which we can select, with examples of variable values and labels</p>
+<div id="b059e925-33a6-4020-83b9-8f358fba3d7f" class="cell" data-execution_count="28">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the class with the target table</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>metro <span class="op">=</span> DstApi(<span class="st">'METROX1'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the table summary</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>metro.tablesummary(language<span class="op">=</span><span class="st">'en'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Table METROX1: Workday passenger index in the Copenhagen Metro (experimental statistics) by seasonal adjustment and time
+Last update: 2022-06-16T08:00:00</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">variable name</th>
+<th data-quarto-table-cell-role="th"># values</th>
+<th data-quarto-table-cell-role="th">First value</th>
+<th data-quarto-table-cell-role="th">First value label</th>
+<th data-quarto-table-cell-role="th">Last value</th>
+<th data-quarto-table-cell-role="th">Last value label</th>
+<th data-quarto-table-cell-role="th">Time variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>SÆSON</td>
+<td>2</td>
+<td>10</td>
+<td>Seasonally adjusted</td>
+<td>11</td>
+<td>Non-seasonally adjusted</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Tid</td>
+<td>122</td>
+<td>2020U01</td>
+<td>2020U01</td>
+<td>2022U23</td>
+<td>2022U23</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>The second method <code>variable_levels</code> zooms into a specific variable and returns a dataframe for each potential variable value. For example, we could check each value of <code>SÆSON</code></p>
+<div id="d778ce85-f447-49b2-960d-3f44a760a83c" class="cell" data-execution_count="29">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>metro.variable_levels(<span class="st">'SÆSON'</span>, language<span class="op">=</span><span class="st">'en'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>10</td>
+<td>Seasonally adjusted</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>11</td>
+<td>Non-seasonally adjusted</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Now, we already knew these values for this simple table from <code>tablesummary()</code>, as they are only two. But for more complex tables, this method is very handy. Take for example <a href="www.statistikbanken.dk/DNVPDKR2">DNVPDKR2</a>, a table showing the circulating amount of mortgage bonds issued by Danish mortgage institutes.</p>
+<p>If I wanted for example to extract only data about fixed interest rate, convertible bonds it would be hard to know I should be referring to the value <code>FK</code> in advance.</p>
+<p>But I can use</p>
+<ul>
+<li>method <code>.tablesummary()</code> to see which variables you can select on</li>
+<li>method <code>.variable_levels()</code> to see which values are available for each variable. Here <code>*</code> is a wildcard that selects <em>all</em> available values for the variable.</li>
+</ul>
+<div id="c8011760-5975-4da8-ac88-da1c90b0ad05" class="cell" data-execution_count="36">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dnrk <span class="op">=</span> DstApi(<span class="st">'DNVPDKR2'</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>dnrk.tablesummary(language<span class="op">=</span><span class="st">'en'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>Table DNVPDKR2: Danish mortgage bonds by type of mortgage bond, original maturity, remaining maturity, coupon (nominal interest rate), currency, issuer, investor sector, covered bonds, data type and time
+Last update: 2024-11-28T08:00:00</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">variable name</th>
+<th data-quarto-table-cell-role="th"># values</th>
+<th data-quarto-table-cell-role="th">First value</th>
+<th data-quarto-table-cell-role="th">First value label</th>
+<th data-quarto-table-cell-role="th">Last value</th>
+<th data-quarto-table-cell-role="th">Last value label</th>
+<th data-quarto-table-cell-role="th">Time variable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>TYPREAL</td>
+<td>9</td>
+<td>A0</td>
+<td>All mortgage bonds</td>
+<td>O</td>
+<td>1.6 Other mortgage bonds</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>LØBETID3</td>
+<td>7</td>
+<td>A0</td>
+<td>All original maturities</td>
+<td>6</td>
+<td>Other (unspecified)</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>LØBETID2</td>
+<td>9</td>
+<td>A0</td>
+<td>All remaining maturities</td>
+<td>8</td>
+<td>Other (unspecified)</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>KUPON2</td>
+<td>15</td>
+<td>A0</td>
+<td>All coupons</td>
+<td>N</td>
+<td>Other coupons</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>VALUTA</td>
+<td>6</td>
+<td>A0</td>
+<td>All currencies</td>
+<td>O</td>
+<td>Other</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>UDSTED</td>
+<td>10</td>
+<td>A0</td>
+<td>All issuers</td>
+<td>O</td>
+<td>Other issuers</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>INVSEKTOR</td>
+<td>10</td>
+<td>A0</td>
+<td>All sectors</td>
+<td>U</td>
+<td>2. Foreign (S.2)</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>DAEKOBL</td>
+<td>4</td>
+<td>A0</td>
+<td>All mortgage bonds</td>
+<td>RO</td>
+<td>RO (other mortgage bonds)</td>
+<td>False</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>DATAT</td>
+<td>5</td>
+<td>N1</td>
+<td>Stock - Nominal</td>
+<td>B3</td>
+<td>Value adjustments - Market value</td>
+<td>False</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>Tid</td>
+<td>299</td>
+<td>1999M12</td>
+<td>1999M12</td>
+<td>2024M10</td>
+<td>2024M10</td>
+<td>True</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div id="7e8b07f3" class="cell" data-execution_count="37">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dnrk.variable_levels(<span class="st">'TYPREAL'</span>, language<span class="op">=</span><span class="st">'en'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>A0</td>
+<td>All mortgage bonds</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>FK</td>
+<td>1.1 Fixed rate convertible bonds</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>FKU</td>
+<td>- - 1.1.1 Open for issue - fixed rate converti...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>FKE</td>
+<td>- - 1.1.2 No longer open for issue - fixed rat...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>I</td>
+<td>1.2 Indexed bonds</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>RTL</td>
+<td>1.3 Adjustable rate bonds (RTL bonds)</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>V</td>
+<td>1.4 Bonds with a rererence rate (without inter...</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>VR</td>
+<td>1.5 Bonds with a reference rate (with interest...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>O</td>
+<td>1.6 Other mortgage bonds</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="step-2-get-the-data-you-need" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-get-the-data-you-need">Step 2: Get the data you need</h2>
+<p>The first step is essential for designing this second step. First and foremost because we need that information to design the call to <code>data</code>. Second, to make sure we only get out the data we need. Asking for too much data only to then having to throw half of it out locally is wasteful, and ultimately disrespectful for the resources invested into allowing <strong>anyone</strong> to fire up an API call (I mean how amazing is that?).</p>
+<section id="the-hard-way-1" class="level3">
+<h3 class="anchored" data-anchor-id="the-hard-way-1">The hard way</h3>
+<p>As for the first step, we’ll start by doing it manually. Here I’ll rely exclusively on <code>request.post()</code> as recommended by DST.</p>
+<p>To select the query parameters to pass to the <code>data</code> function appropriatedly one ought to have a careful look at the <strong>DATA</strong> section in <a href="https://www.dst.dk/da/Statistik/brug-statistikken/muligheder-i-statistikbanken/api#metadataogdata">the documentation</a>. Nonetheless, hopefully the examples below will serve to clarify how to construct such calls.</p>
+<p>The first two key parameters are, as before, the table name and the format in which we’d like to obtain the data. In the examples below I choose <code>BULK</code>, which has the advantage of being faster and allowing an unlimited number of data rows at export. There are some limitations with this format, such as the inability to perform simple computations (e.g.&nbsp;sums) on the fly. If you need these utilities, you probably don’t need this guide, so I’ll stick with <code>BULK</code> here.</p>
+<p>The third crucial parameter is the selection based on the variables shown in e.g.&nbsp;<code>DstApi.tablesummary()</code>. These are mandatory: we need to specify the selection we want to do. We might however choose to include a range of possible values, or all of them, in a selection. In this case, the character <code>*</code> acts as a joker. So to select all values of a variable, we can use <code>*</code>. To select all 2020 weeks in <code>Tid</code>, we could use <code>2020*</code>.</p>
+<p>Below I write the parameters necessary to download the seasonally adjusted (code 10) index for all weeks in the data, and pass them to <code>requests.post()</code>. Finally I print the first 200 characters of the data we received back (in <code>;</code>-separated format).</p>
+<div id="eb5f7c3b-655e-4e39-a828-6003b22652fd" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'table'</span>: <span class="st">'metrox1'</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'format'</span>: <span class="st">'BULK'</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'variables'</span>: [</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'code'</span>: <span class="st">'SÆSON'</span>, <span class="st">'values'</span>: [<span class="st">'10'</span>]},</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'code'</span>: <span class="st">'Tid'</span>, <span class="st">'values'</span>: [<span class="st">'*'</span>]}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.post(<span class="st">'https://api.statbank.dk/v1'</span> <span class="op">+</span> <span class="st">'/data'</span>, json<span class="op">=</span>params)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.text[:<span class="dv">200</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SÆSON;TID;INDHOLD
+Sæsonkorrigeret;2020U01;37,7
+Sæsonkorrigeret;2020U08;105,0
+Sæsonkorrigeret;2020U09;95,2
+Sæsonkorrigeret;2020U10;93,0
+Sæsonkorrigeret;2020U11;63,0
+Sæsonkorrigeret;2020U12;17,9
+</code></pre>
+</div>
+</div>
+<p>Neat! We can then save this data to a csv file or whatever, or directly import it into pandas:</p>
+<div id="f910dc4d-7857-4c2f-889a-10d7b3007581" class="cell" data-execution_count="39">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pd.read_table(StringIO(r.text), sep<span class="op">=</span><span class="st">';'</span>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SÆSON</th>
+<th data-quarto-table-cell-role="th">TID</th>
+<th data-quarto-table-cell-role="th">INDHOLD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U01</td>
+<td>37,7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U08</td>
+<td>105,0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U09</td>
+<td>95,2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U10</td>
+<td>93,0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U11</td>
+<td>63,0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Keep in mind that you can also specify intervals for time variables, as in the example below, where I also require the data to be exported in English.</p>
+<div id="19c63c61-467d-4e9a-920a-7485233a6121" class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'table'</span>: <span class="st">'metrox1'</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'format'</span>: <span class="st">'BULK'</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'lang'</span>: <span class="st">'en'</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">'variables'</span>: [</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'code'</span>: <span class="st">'SÆSON'</span>, <span class="st">'values'</span>: [<span class="st">'11'</span>]},</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>        {<span class="st">'code'</span>: <span class="st">'Tid'</span>, <span class="st">'values'</span>: [<span class="st">'&gt;2020U45&lt;=2020U52'</span>]}</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    StringIO(</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>        requests.post(<span class="st">'https://api.statbank.dk/v1'</span> <span class="op">+</span> <span class="st">'/data'</span>, json<span class="op">=</span>params).text</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    ), sep<span class="op">=</span><span class="st">';'</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="40">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SÆSON</th>
+<th data-quarto-table-cell-role="th">TID</th>
+<th data-quarto-table-cell-role="th">INDHOLD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Non-seasonally adjusted</td>
+<td>2020U46</td>
+<td>56.2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Non-seasonally adjusted</td>
+<td>2020U47</td>
+<td>55.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Non-seasonally adjusted</td>
+<td>2020U48</td>
+<td>58.3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Non-seasonally adjusted</td>
+<td>2020U49</td>
+<td>57.6</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Non-seasonally adjusted</td>
+<td>2020U50</td>
+<td>46.9</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="the-easy-er-way" class="level3">
+<h3 class="anchored" data-anchor-id="the-easy-er-way">The easy-er way</h3>
+<p>The code above is already quite compact, but to avoid remembering how to import the data into pandas all the time, <code>DstApi</code> has a method to import the data directly into pandas given a parameter dictionary. So, for example, given the <code>params</code> dictionary defined above, we might call directly</p>
+<div id="8731aab1-8e27-42f5-ae98-c2d6b33ae0ef" class="cell" data-execution_count="55">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>metro.get_data(params<span class="op">=</span>params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="55">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SÆSON</th>
+<th data-quarto-table-cell-role="th">TID</th>
+<th data-quarto-table-cell-role="th">INDHOLD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U01</td>
+<td>37.7</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U08</td>
+<td>105.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U09</td>
+<td>95.2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U10</td>
+<td>93.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Sæsonkorrigeret</td>
+<td>2020U11</td>
+<td>63.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">117</td>
+<td>Sæsonkorrigeret</td>
+<td>2022U19</td>
+<td>99.5</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">118</td>
+<td>Sæsonkorrigeret</td>
+<td>2022U20</td>
+<td>95.7</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">119</td>
+<td>Sæsonkorrigeret</td>
+<td>2022U21</td>
+<td>103.1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">120</td>
+<td>Sæsonkorrigeret</td>
+<td>2022U22</td>
+<td>108.4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">121</td>
+<td>Sæsonkorrigeret</td>
+<td>2022U23</td>
+<td>109.3</td>
+</tr>
+</tbody>
+</table>
+
+<p>122 rows × 3 columns</p>
+</div>
+</div>
+</div>
+<p>the <code>.get_data()</code> method has also the built-in option of downloading an entire data table by not passing any parameter dictionary. As mentioned above, this <strong>might be (very) wasteful</strong>. Some DST tables contain billions of data points. That’s why when used in this way the method asks for explicit confirmation before proceeding.</p>
+<p>However, creating the <code>params</code> dictionary itself can be challenging. As we have seen above with table <a href="www.statistikbanken.dk/DNVPDKR2">DNVPDKR2</a>, table structures can be complex, and creating the parameter dictionary manually can be cumbersome.</p>
+<p>That’s why <code>DstApi</code> has a helper method returning a <em>base</em> dictionary of parameters with default values.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Only pass a default <code>params</code> to <code>.get_data()</code> if you know what you are doing
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Some tables in Statistikbanken have millions of records. Downloading them all through the api can take a lot of time, and it’s extremely wasteful if in fact you only need a fraction of the data.</p>
+</div>
+</div>
+<div id="23986ebf" class="cell" data-execution_count="44">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start by constructing a basic dictionary</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>dnrk <span class="op">=</span> DstApi(<span class="st">'DNVPDKR2'</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> dnrk.define_base_params(language <span class="op">=</span> <span class="st">'en'</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>params</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>{'table': 'dnvpdkr2',
+ 'format': 'BULK',
+ 'lang': 'en',
+ 'variables': [{'code': 'TYPREAL', 'values': ['*']},
+  {'code': 'LØBETID3', 'values': ['*']},
+  {'code': 'LØBETID2', 'values': ['*']},
+  {'code': 'KUPON2', 'values': ['*']},
+  {'code': 'VALUTA', 'values': ['*']},
+  {'code': 'UDSTED', 'values': ['*']},
+  {'code': 'INVSEKTOR', 'values': ['*']},
+  {'code': 'DAEKOBL', 'values': ['*']},
+  {'code': 'DATAT', 'values': ['*']},
+  {'code': 'Tid', 'values': ['*']}]}</code></pre>
+</div>
+</div>
+<p>Once I have the basic structure, I can copy-paste the dictionary definition and use the method <code>variable_levels</code> to specify the data selection further. For example, I would like to have only bonds issued by <a href="www.rd.dk">Realkredit Danmark</a>, so the code below tells me to use value <code>RD</code> for variable <code>DAEKOBL</code>.</p>
+<div id="8723599e" class="cell" data-execution_count="62">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>dnrk.variable_levels(<span class="st">'LØBETID3'</span>, language<span class="op">=</span><span class="st">'en'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="62">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">id</th>
+<th data-quarto-table-cell-role="th">text</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>A0</td>
+<td>Alle oprindelige løbetider</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1</td>
+<td>Under 10 år</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>2</td>
+<td>10-årige</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>3</td>
+<td>15-årige</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>4</td>
+<td>20-årige</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>5</td>
+<td>30-årige</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>6</td>
+<td>Andet (uspecificeret)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>I can further refine my query filling in the selection parameters required and call the <code>get_data()</code> method to extract the final dataframe.</p>
+<div id="322641a0" class="cell" data-execution_count="65">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {<span class="st">'table'</span>: <span class="st">'dnvpdkr2'</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a> <span class="st">'format'</span>: <span class="st">'BULK'</span>,</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a> <span class="st">'lang'</span>: <span class="st">'en'</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a> <span class="st">'variables'</span>: [{<span class="st">'code'</span>: <span class="st">'TYPREAL'</span>, <span class="st">'values'</span>: [<span class="st">'FK'</span>]},</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'LØBETID3'</span>, <span class="st">'values'</span>: [<span class="st">'5'</span>]},</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'LØBETID2'</span>, <span class="st">'values'</span>: [<span class="st">'A0'</span>]},</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'KUPON2'</span>, <span class="st">'values'</span>: [<span class="st">'A0'</span>]},</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'VALUTA'</span>, <span class="st">'values'</span>: [<span class="st">'DKK'</span>]},</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'UDSTED'</span>, <span class="st">'values'</span>: [<span class="st">'RD'</span>]},</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'INVSEKTOR'</span>, <span class="st">'values'</span>: [<span class="st">'A0'</span>]},</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'DAEKOBL'</span>, <span class="st">'values'</span>: [<span class="st">'A0'</span>]},</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'DATAT'</span>, <span class="st">'values'</span>: [<span class="st">'N1'</span>]},</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'Tid'</span>, <span class="st">'values'</span>: [<span class="st">'*'</span>]}]}</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> dnrk.get_data(params<span class="op">=</span>params, language<span class="op">=</span><span class="st">'en'</span>)</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>df.tail()[[<span class="st">"TID"</span>, <span class="st">"INDHOLD"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">TID</th>
+<th data-quarto-table-cell-role="th">INDHOLD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">294</td>
+<td>2024M06</td>
+<td>229104</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">295</td>
+<td>2024M07</td>
+<td>228410</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">296</td>
+<td>2024M08</td>
+<td>229411</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">297</td>
+<td>2024M09</td>
+<td>231149</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">298</td>
+<td>2024M10</td>
+<td>231694</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>And just like that, I have the full time series of RD’s 30yo fixed interest rate bonds in nominal values.</p>
+<p>You can play around with parameters in various ways. For example, here I select a range of weeks in 2020 from the <code>metro</code> table.</p>
+<div id="d2b56866-67f1-40c1-8cd6-624b91008fb9" class="cell" data-execution_count="66">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Start by constructing a basic dictionary</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> metro._define_base_params(language <span class="op">=</span> <span class="st">'en'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>params[<span class="st">'variables'</span>][<span class="dv">0</span>][<span class="st">'values'</span>] <span class="op">=</span> [<span class="st">'10'</span>]</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>params[<span class="st">'variables'</span>][<span class="dv">1</span>][<span class="st">'values'</span>] <span class="op">=</span> [<span class="st">'&gt;2020U45&lt;=2020U52'</span>]</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>metro.get_data(params<span class="op">=</span>params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">SÆSON</th>
+<th data-quarto-table-cell-role="th">TID</th>
+<th data-quarto-table-cell-role="th">INDHOLD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Seasonally adjusted</td>
+<td>2020U46</td>
+<td>59.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Seasonally adjusted</td>
+<td>2020U47</td>
+<td>54.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Seasonally adjusted</td>
+<td>2020U48</td>
+<td>56.2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Seasonally adjusted</td>
+<td>2020U49</td>
+<td>54.5</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Seasonally adjusted</td>
+<td>2020U50</td>
+<td>44.3</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Seasonally adjusted</td>
+<td>2020U51</td>
+<td>40.2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Seasonally adjusted</td>
+<td>2020U52</td>
+<td>44.8</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="and-thats-it" class="level2">
+<h2 class="anchored" data-anchor-id="and-thats-it">And that’s it!</h2>
+<p>I hope this guide was useful, and that the <code>DstApi</code> class can prove as helpful to you as it is for me.</p>
+<p>Once again, let me conclude with a shout out to Denmark Statistics, a real national treasure. Thanks for all your work in gathering, organizing, and publishing data for everyone to use. It’s a fantastic service, and one for which you’ll never be thanked enough.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/alemartinello\.github\.io\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
