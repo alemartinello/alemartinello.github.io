@@ -1,0 +1,23 @@
+---
+title: "Alessandro Tang-Andersen Martinello"
+about:
+  template: jolla
+  image: files/profile.jpg
+  links:
+    - text: '{{< iconify pepicons-pop:cv >}} Resume'
+      href: files/AlessandroTMartinello_resume.pdf
+    - icon: linkedin
+      text: LinkedIn
+      href: https://dk.linkedin.com/in/alessandro-martinello-a2766823
+    - icon: github
+      text: Github
+      href: https://github.com/alemartinello
+    - text: '{{< iconify simple-icons:bluesky >}} Bluesky'
+      href: https://bsky.app/profile/alemartinello.com
+---
+
+Originally from [Jesolo](https://en.wikipedia.org/wiki/Jesolo), I obtained my PhD in Economics at the University of Copenhagen, and have worked both in academia at [Lund University](https://www.lusem.lu.se/) and in policy at the [Danish Central Bank](https://www.lusem.lu.se/).
+
+I am now Head of Data and Analytics at [Realkredit Danmark](https://www.rd.dk/), part of [Danske Bank](https://www.danskebank.com/) group.
+
+Here you can find both my (very infrequenctly updated) [blog](tidbits.qmd) and my old [research](research.qmd) projects.

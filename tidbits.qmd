@@ -1,0 +1,11 @@
+---
+title: "Tidbits"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: true
+---
+
+A collection of thoughts on data, statistics, and anything else really.
+
