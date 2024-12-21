@@ -1,150 +1,30 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-    <meta charset="utf-8">
-    <meta name="generator" content="quarto-1.6.39">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.6.39">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-12-21">
+<meta name="description" content="Why SQL ought really to be a staple in the toolbox of anyone working with data - in or outside academia.">
+
+<title>Teach SQL in (grad) school</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
 
 
-    <title>Notebook generating plot(s) for blog post on gender gap</title>
-    <style>
-      code{white-space: pre-wrap;}
-      span.smallcaps{font-variant: small-caps;}
-      div.columns{display: flex; gap: min(4vw, 1.5em);}
-      div.column{flex: auto; overflow-x: auto;}
-      div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-      ul.task-list{list-style: none;}
-      ul.task-list li input[type="checkbox"] {
-        width: 0.8em;
-        margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
-        vertical-align: middle;
-      }
-      /* CSS for syntax highlighting */
-      pre > code.sourceCode { white-space: pre; position: relative; }
-      pre > code.sourceCode > span { line-height: 1.25; }
-      pre > code.sourceCode > span:empty { height: 1.2em; }
-      .sourceCode { overflow: visible; }
-      code.sourceCode > span { color: inherit; text-decoration: inherit; }
-      div.sourceCode { margin: 1em 0; }
-      pre.sourceCode { margin: 0; }
-      @media screen {
-      div.sourceCode { overflow: auto; }
-      }
-      @media print {
-      pre > code.sourceCode { white-space: pre-wrap; }
-      pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-      }
-      pre.numberSource code
-        { counter-reset: source-line 0; }
-      pre.numberSource code > span
-        { position: relative; left: -4em; counter-increment: source-line; }
-      pre.numberSource code > span > a:first-child::before
-        { content: counter(source-line);
-          position: relative; left: -1em; text-align: right; vertical-align: baseline;
-          border: none; display: inline-block;
-          -webkit-touch-callout: none; -webkit-user-select: none;
-          -khtml-user-select: none; -moz-user-select: none;
-          -ms-user-select: none; user-select: none;
-          padding: 0 4px; width: 4em;
-        }
-      pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-      div.sourceCode
-        {   }
-      @media screen {
-      pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-      }
-    </style>
-
-    <style>
-      body.hypothesis-enabled #quarto-embed-header {
-        padding-right: 36px;
-      }
-
-      #quarto-embed-header {
-        height: 3em;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-bottom: solid 1px;
-      }
-
-      #quarto-embed-header h6 {
-        font-size: 1.1em;
-        padding-top: 0.6em;
-        margin-left: 1em;
-        margin-right: 1em;
-        font-weight: 400;
-      }
-
-      #quarto-embed-header a.quarto-back-link,
-      #quarto-embed-header a.quarto-download-embed {
-        font-size: 0.8em;
-        margin-top: 1em;
-        margin-bottom: 1em;
-        margin-left: 1em;
-        margin-right: 1em;
-      }
-
-      .quarto-back-container {
-        padding-left: 0.5em;
-        display: flex;
-      }
-
-      .headroom {
-          will-change: transform;
-          transition: transform 200ms linear;
-      }
-
-      .headroom--pinned {
-          transform: translateY(0%);
-      }
-
-      .headroom--unpinned {
-          transform: translateY(-100%);
-      }      
-    </style>
-
-    <script>
-    window.document.addEventListener("DOMContentLoaded", function () {
-
-      var header = window.document.querySelector("#quarto-embed-header");
-      const titleBannerEl = window.document.querySelector("body > #title-block-header");
-      if (titleBannerEl) {
-        titleBannerEl.style.paddingTop = header.clientHeight + "px";
-      }
-      const contentEl = window.document.getElementById('quarto-content');
-      for (const child of contentEl.children) {
-        child.style.paddingTop = header.clientHeight + "px";
-        child.style.marginTop = "1em";
-      }
-
-      // Use the article root if the `back` call doesn't work. This isn't perfect
-      // but should typically work
-      window.quartoBackToArticle = () => {
-        var currentUrl = window.location.href;
-        window.history.back();
-        setTimeout(() => {
-            // if location was not changed in 100 ms, then there is no history back
-            if(currentUrl === window.location.href){              
-                // redirect to site root
-                window.location.href = '/';
-            }
-        }, 100);
-      }
-
-      const headroom = new window.Headroom(header, {
-        tolerance: 5,
-        onPin: function () {
-        },
-        onUnpin: function () {
-        },
-      });
-      headroom.init();
-    });
-    </script>
-
-    
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
@@ -161,7 +41,7 @@
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-a652c116b21f402b806f3cbc5a90424b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-     <script id="quarto-search-options" type="application/json">{
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -187,20 +67,19 @@
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script>  
-        <link rel="stylesheet" href="../styles.css">
-      </head>
+}</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <body class="floating nav-fixed quarto-notebook">
-    <div id="quarto-embed-header" class="headroom fixed-top bg-primary">
-      
-      <a onclick="window.quartoBackToArticle(); return false;" class="btn btn-primary quarto-back-link"><i class="bi bi-caret-left"></i> Back to Article</a>
-      <h6><i class="bi bi-journal-code"></i> Plots</h6>
 
-            <a href="../posts/_2019-11-29.gender_gap_data.ipynb" class="btn btn-primary quarto-download-embed" download="_2019-11-29.gender_gap_data.ipynb">Download Notebook</a>
-          </div>
+<link rel="stylesheet" href="../styles.css">
+</head>
 
-     <div id="quarto-search-results"></div>
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
@@ -234,109 +113,118 @@
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#teach-sql-in-grad-school" id="toc-teach-sql-in-grad-school" class="nav-link active" data-scroll-target="#teach-sql-in-grad-school">Teach SQL in (grad) school</a></li>
+  <li><a href="#most-academic-economists-never-really-pick-up-sql" id="toc-most-academic-economists-never-really-pick-up-sql" class="nav-link" data-scroll-target="#most-academic-economists-never-really-pick-up-sql">Most academic economists never really pick up SQL</a></li>
+  <li><a href="#but-isnt-sql-just-a-weird-way-to-download-raw-data-from-a-remote-database" id="toc-but-isnt-sql-just-a-weird-way-to-download-raw-data-from-a-remote-database" class="nav-link" data-scroll-target="#but-isnt-sql-just-a-weird-way-to-download-raw-data-from-a-remote-database">But isn’t SQL just a weird way to download raw data from a remote database?</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">      <header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Notebook generating plot(s) for blog post on gender gap</h1>
-</div>
+<main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Teach SQL in (grad) school</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">analytics</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Why SQL ought really to be a staple in the toolbox of anyone working with data - in or outside academia.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 21, 2024</p>
+    </div>
+  </div>
   
     
   </div>
   
 
 
-</header>   <div id="cell-1" class="cell markdown">
-<p>Start by getting data on hourly wages by gender over time</p>
-</div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-2" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dstapi <span class="im">import</span> DstApi</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>lon <span class="op">=</span> DstApi(<span class="st">"LONS20"</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> {<span class="st">'table'</span>: <span class="st">'lons20'</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a> <span class="st">'format'</span>: <span class="st">'BULK'</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> <span class="st">'lang'</span>: <span class="st">'da'</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a> <span class="st">'variables'</span>: [{<span class="st">'code'</span>: <span class="st">'ARBF'</span>, <span class="st">'values'</span>: [<span class="st">'TOT'</span>]},</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'SEKTOR'</span>, <span class="st">'values'</span>: [<span class="st">'1046'</span>]},</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'AFLOEN'</span>, <span class="st">'values'</span>: [<span class="st">'TIFA'</span>]},</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'LONGRP'</span>, <span class="st">'values'</span>: [<span class="st">'LTOT'</span>]},</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'LØNMÅL'</span>, <span class="st">'values'</span>: [<span class="st">'STAND'</span>]},</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'KØN'</span>, <span class="st">'values'</span>: [<span class="st">'M'</span>, <span class="st">'K'</span>]},</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  {<span class="st">'code'</span>: <span class="st">'Tid'</span>, <span class="st">'values'</span>: [<span class="st">'*'</span>]}]}</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> lon.get_data(params<span class="op">=</span>params)[[<span class="st">"KØN"</span>, <span class="st">"TID"</span>, <span class="st">"INDHOLD"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div></div>
-<div id="cell-3" class="cell markdown">
-<p>Plot</p>
-</div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-fig-gender-gap-basic" class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>kvcolor <span class="op">=</span> <span class="st">"#E75480"</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mdcolor <span class="op">=</span> <span class="st">"#4682B4"</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>sns.lineplot(</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">"TID"</span>, y<span class="op">=</span><span class="st">"INDHOLD"</span>, hue<span class="op">=</span><span class="st">"KØN"</span>, data<span class="op">=</span>df,</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    palette<span class="op">=</span>{<span class="st">"Kvinder"</span>: kvcolor, <span class="st">"Mænd"</span>: mdcolor},</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>ax</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>plt.xticks(df[<span class="st">"TID"</span>].unique())</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>kvinder_val <span class="op">=</span> df.loc[(df[<span class="st">"KØN"</span>] <span class="op">==</span> <span class="st">"Kvinder"</span>) <span class="op">&amp;</span> (df[<span class="st">"TID"</span>] <span class="op">==</span> df[<span class="st">"TID"</span>].<span class="bu">max</span>()), <span class="st">"INDHOLD"</span>].values[<span class="dv">0</span>]</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>maend_val <span class="op">=</span> df.loc[(df[<span class="st">"KØN"</span>] <span class="op">==</span> <span class="st">"Mænd"</span>) <span class="op">&amp;</span> (df[<span class="st">"TID"</span>] <span class="op">==</span> df[<span class="st">"TID"</span>].<span class="bu">max</span>()), <span class="st">"INDHOLD"</span>].values[<span class="dv">0</span>]</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>diff <span class="op">=</span> <span class="dv">100</span><span class="op">*</span>(kvinder_val <span class="op">-</span> maend_val)<span class="op">/</span>(maend_val) </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>plt.annotate(</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="ss">f"</span><span class="sc">{</span>diff<span class="sc">:.0f}</span><span class="ss">%"</span>,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  xy<span class="op">=</span>(df[<span class="st">"TID"</span>].<span class="bu">max</span>(), (kvinder_val <span class="op">+</span> maend_val)<span class="op">/</span><span class="dv">2</span>),</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  xytext<span class="op">=</span>(df[<span class="st">"TID"</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="fl">0.1</span>,</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  (kvinder_val <span class="op">+</span> maend_val)<span class="op">/</span><span class="dv">2</span>),</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>plt.plot([df[<span class="st">"TID"</span>].<span class="bu">max</span>(), df[<span class="st">"TID"</span>].<span class="bu">max</span>()], [kvinder_val, maend_val], lw<span class="op">=</span><span class="fl">0.5</span>, ls<span class="op">=</span><span class="st">'--'</span>, color<span class="op">=</span><span class="st">'black'</span>)</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">""</span>)</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">""</span>)</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">210</span>, <span class="dv">330</span>)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>sns.despine()</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="fig-gender-gap-basic" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-gender-gap-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<img src="_2019-11-29.gender_gap_data_files/figure-html/fig-gender-gap-basic-output-1.png" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gender-gap-basic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Gender gap in hourly wages for private sector employees, Danish kroner. Source: www.statistikbanken.dk/LONS20
-</figcaption>
-</figure>
-</div>
-</div>
-</div></div>
+</header>
 
 
-     </main> <!-- /main -->  <script id="quarto-html-after-body" type="application/javascript">
+<p>On December 12 I gave a workshop to a small crowd for the series <a href="https://sites.google.com/view/dariia-mykhailyshyna/main/r-workshops-for-ukraine">Workshops for Ukraine</a>, organized by <a href="https://sites.google.com/view/dariia-mykhailyshyna/main">Dariia Mykhailyshyna</a>.</p>
+<p>Besides being happy to a tiny little contribution to the Ukranian cause, it was a perfect opportunity to * Write down some <a href="https://github.com/alemartinello/BigDataMadeSmall">material I have long wanted to share</a>. * Disseminate to academics the value of using SQL when working with data</p>
+<p>Which brings me to one of my greatest wishes towards higher education (in Denmark, at least).</p>
+<section id="teach-sql-in-grad-school" class="level2">
+<h2 class="anchored" data-anchor-id="teach-sql-in-grad-school">Teach SQL in (grad) school</h2>
+<p>Pushing SQL into university classes is one of my pet peeves. I am honored to be among the “industry panel” (a forum where prospective employers can give input to the direction of a course of studies) for the <a href="https://www.ku.dk/studies/bachelor/cognitive-data-science">bachelor in cognitive data science</a> and the <a href="https://www.ku.dk/studies/masters/social-data-science">master in social data science</a> at Copenhagen University. Pushing SQL in class teachings is one of the points I bring back to each and every meeting.</p>
+<p>SQL has consistently been around for about 40 years, and nothing points to it being less relevant going forward. On the contrary, business analytics is increasingly dependent on it. Further, while once you had to set up a SQL database, and ideally a server, for taking advantage of database engines, recent advances in the availability of self-contained database engines like <a href="https://duckdb.org/">DuckDB</a> make it accessible to anyone who can run an R or a python script. I have used it daily at both <a href="www.nationalbanken.dk">Danmark Nationalbank</a> and <a href="www.rd.dk">Realkredit Danmark</a>.</p>
+<p><strong>Yet none of the people I have ever hired directly after university knew how to use it.</strong></p>
+<p>It’s a skill that has to be taught at work. It takes time, it takes errors, it prolongs the time gap between “<em>just focus on learning</em>” and “<em>you can actually start helping me for real</em>” for newly educated hires. At the same time, I have to make them unlearn all their <code>pandas</code> workflow, and <em>smart <code>pandas</code> hacks</em> they have taught themselves to solve issues that are really best solved by a good old SQL query.</p>
+<p>So why is this blatant mismatch between data skills taught at unis and required outside of academia occurring?</p>
+<p>My thesis is simple.</p>
+</section>
+<section id="most-academic-economists-never-really-pick-up-sql" class="level2">
+<h2 class="anchored" data-anchor-id="most-academic-economists-never-really-pick-up-sql">Most academic economists never really pick up SQL</h2>
+<p>And thereby, fail to realize its usefulness.</p>
+<p>And that’s true even for data people, very good at coding in R or python or Julia or whatever else. I know, because I was one of them.</p>
+<p>It’s a recurring circle of missed opportunities. Econ professors do not know SQL, so they don’t teach it at school. The students going to the private sector will learn it, but those pursuing an academic career are never exposed to it, and never realize what it can. At best, they have heard about it and regard it as “some sort of old-school, weird way to extract data from remote databases”. So when it’s their turn to teach data classes, they do not teach it.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">block-beta
+  columns 3
+  space A(["Professors do \nnot know SQL"]) space
+  B(["Professors do not\nteach SQL to\ngrad students"]) space D(["Grad students\nbecome professors"])
+  space C(["Grad students\ndo not know SQL"]) space
+  A --&gt; B 
+  B --&gt; C 
+  C --&gt; D
+  D --&gt; A
+
+</pre>
+</div>
+<p></p><figcaption> The recurring circle of misssed opportunities</figcaption> </figure><p></p>
+</div>
+</div>
+</div>
+<p>At the same time, compared to fields like law, or medicine, the “real world” of the private sectors is an absorbing state. People like me, going from academia to the private sector, do not ever go back, even just for teaching a class.</p>
+<p>This post, likely the first in a series, is meant to showcase why SQL ought really to be a staple in the toolbox of anyone working with data - in or outside academia.</p>
+</section>
+<section id="but-isnt-sql-just-a-weird-way-to-download-raw-data-from-a-remote-database" class="level2">
+<h2 class="anchored" data-anchor-id="but-isnt-sql-just-a-weird-way-to-download-raw-data-from-a-remote-database">But isn’t SQL just a weird way to download raw data from a remote database?</h2>
+<p>…And <em>then</em> do the <strong>real</strong> data work in python or R?</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+NO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
+<p>This is often the first misconception to eliminate.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -752,6 +640,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>  </div> <!-- /content --> 
-  
+</script>
+</div> <!-- /content -->
+
+
+
+
 </body></html>
