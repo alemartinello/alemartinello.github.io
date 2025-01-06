@@ -306,7 +306,7 @@ Is it the size of the data? I could use feather in R or just work on the cluster
 <p>The need for efficiency is often lost because of today’s superpowered hardware. During my PhD, I worked on a remote windows server with 5GB RAM available for data and shared across a dozen of so researchers. Today, a MacBook Pro ships with minimum 16GB RAM. Computers are extremely fast, and cloud computing is easily accessible.</p>
 <p>And yet, I have always disliked wasting resources. Why waiting minutes when a data tasks can be done in seconds? What if you encounter a truly large dataset? Are you willing to wait hours just because you are including in your workflow tons of data you do not actually need?</p>
 <p>In the sections below I will use <a href="https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page">NYC’s yellow taxi cab data</a> for a few examples. In line with Peter’s question above, I simply downloaded the <a href="https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-10.parquet">parquet with October 2024</a> data and saved it locally. Imagine this as a very simple local data source.</p>
-<div id="55bd6ccc" class="cell" data-execution_count="1">
+<div id="7b1d1b2f" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -323,7 +323,7 @@ Is it the size of the data? I could use feather in R or just work on the cluster
 </details>
 </div>
 <p>As hinted several times already, I’ll be using <a href="https://duckdb.org">duckdb</a> to work with the data.</p>
-<div id="875d87b7" class="cell" data-execution_count="2">
+<div id="6daed502" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -364,7 +364,7 @@ But I need to explore the data!
 </div>
 </div>
 <p>So let’s see what the first five rows of the data we downloaded contains.</p>
-<div id="d8e4340f" class="cell" data-execution_count="3">
+<div id="a6fe5cf1" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>duckdb.sql(</span>
@@ -390,7 +390,7 @@ But I need to explore the data!
 </div>
 <p>Cool. Just gotten the first 5 rows out. One could already see some patterns and some data of use.</p>
 <p>But I wonder, can I describe all variables similarly to a <code>pandas.DataFrame.describe()</code>? With DuckDB, sure</p>
-<div id="dc9504e6" class="cell" data-execution_count="4">
+<div id="81e86bc8" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>duckdb.sql(</span>
@@ -446,9 +446,9 @@ But I need to explore the data!
 <td>1646536</td>
 <td>None</td>
 <td>None</td>
-<td>2024-10-09 14:53:31.235514</td>
-<td>2024-10-17 02:48:37.032571</td>
-<td>2024-10-24 17:48:01.66193</td>
+<td>2024-10-09 14:48:11.659375</td>
+<td>2024-10-17 03:35:05.109872</td>
+<td>2024-10-24 17:46:20.551936</td>
 <td>3833771</td>
 <td>0.00</td>
 </tr>
@@ -461,9 +461,9 @@ But I need to explore the data!
 <td>1673214</td>
 <td>None</td>
 <td>None</td>
-<td>2024-10-09 14:30:56.884695</td>
+<td>2024-10-09 14:25:15.800813</td>
 <td>2024-10-17 04:05:36.46289</td>
-<td>2024-10-24 17:23:08.655712</td>
+<td>2024-10-24 17:18:28.404088</td>
 <td>3833771</td>
 <td>0.00</td>
 </tr>
@@ -475,7 +475,7 @@ But I need to explore the data!
 <td>9</td>
 <td>11</td>
 <td>1.308449781329327</td>
-<td>0.7677346081127401</td>
+<td>0.76773460811274</td>
 <td>1</td>
 <td>1</td>
 <td>1</td>
@@ -491,9 +491,9 @@ But I need to explore the data!
 <td>3580</td>
 <td>5.123568288246285</td>
 <td>486.9214199492435</td>
-<td>1.0234609576200648</td>
-<td>1.7697327406379677</td>
-<td>3.414311192207557</td>
+<td>1.0236465806968447</td>
+<td>1.770674544200671</td>
+<td>3.4074943721031508</td>
 <td>3833771</td>
 <td>0.00</td>
 </tr>
@@ -537,7 +537,7 @@ But I need to explore the data!
 <td>164.48797776393008</td>
 <td>64.3353498901592</td>
 <td>132</td>
-<td>161</td>
+<td>162</td>
 <td>233</td>
 <td>3833771</td>
 <td>0.00</td>
@@ -581,9 +581,9 @@ But I need to explore the data!
 <td>8804</td>
 <td>19.720713955008456</td>
 <td>19.431893985781933</td>
-<td>9.307899807169994</td>
-<td>14.247843843344228</td>
-<td>23.08844770883916</td>
+<td>9.30015024984681</td>
+<td>14.224528016974363</td>
+<td>23.104744522935803</td>
 <td>3833771</td>
 <td>0.00</td>
 </tr>
@@ -627,8 +627,8 @@ But I need to explore the data!
 <td>3.4248225154810834</td>
 <td>4.1867407431190955</td>
 <td>0.0</td>
-<td>2.6859957618935573</td>
-<td>4.40305781379883</td>
+<td>2.6899870319080277</td>
+<td>4.4082036585587305</td>
 <td>3833771</td>
 <td>0.00</td>
 </tr>
@@ -640,7 +640,7 @@ But I need to explore the data!
 <td>150.0</td>
 <td>1216</td>
 <td>0.584599502682299</td>
-<td>2.2606473061080656</td>
+<td>2.260647306108066</td>
 <td>0.0</td>
 <td>0.0</td>
 <td>0.0</td>
@@ -671,9 +671,9 @@ But I need to explore the data!
 <td>17716</td>
 <td>28.429628798927773</td>
 <td>24.413092049766984</td>
-<td>16.079641547982405</td>
-<td>21.535189657984535</td>
-<td>31.37899147922466</td>
+<td>16.071745881350253</td>
+<td>21.527703960001368</td>
+<td>31.32966652820347</td>
 <td>3833771</td>
 <td>0.00</td>
 </tr>
@@ -685,7 +685,7 @@ But I need to explore the data!
 <td>2.5</td>
 <td>6</td>
 <td>2.230652282233429</td>
-<td>0.8855332647216069</td>
+<td>0.885533264721607</td>
 <td>2.5</td>
 <td>2.5</td>
 <td>2.5</td>
@@ -728,7 +728,7 @@ But I need to explore the data!
 </ul>
 <p>Overall, why should I load into my memory rows I already now know I do not have to use? So While it’s true that a row selection is pretty straightforward to implement not only in SQL, but also in <code>pandas</code>, excel, whataver, the key is that by passing the filter <strong>before</strong> we load the data into the RAM, we’re saving a lot of space, energy, time.</p>
 <p>But also, why limiting outselves to rows? If I need only times and distance, why not only load those columns? And maybe computing MpH on the fly?</p>
-<div id="35cfb77a" class="cell" data-execution_count="5">
+<div id="7fa1a9d5" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> duckdb.sql(</span>
@@ -812,7 +812,7 @@ But I need to explore the data!
 </div>
 <p>But we can take it a step further.</p>
 <p>Do I need the microdata at all? At the end of the day, if I just want to plot a graph showing average taxi speed over time of day, why don’t I aggregate already -<strong>without loading every single row in an (expensive) <code>pandas.DataFrame()</code></strong>? We can just import the aggregate data directly. No need to waste memory!</p>
-<div id="3728a8f0" class="cell" data-execution_count="6">
+<div id="b2f1982f" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># group by {frequency} minutes</span></span>
@@ -862,33 +862,33 @@ But I need to explore the data!
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>15.000000</td>
-<td>8.274866</td>
-<td>28325</td>
+<td>14.000000</td>
+<td>8.709100</td>
+<td>24804</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>16.000000</td>
-<td>8.391101</td>
-<td>27500</td>
+<td>14.333333</td>
+<td>8.567473</td>
+<td>25610</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>13.333333</td>
-<td>8.592892</td>
-<td>23253</td>
+<td>16.833333</td>
+<td>8.447701</td>
+<td>28748</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>13.666667</td>
-<td>8.666682</td>
-<td>24684</td>
+<td>18.333333</td>
+<td>8.766163</td>
+<td>34094</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>19.833333</td>
-<td>10.579800</td>
-<td>28203</td>
+<td>20.500000</td>
+<td>11.267965</td>
+<td>27714</td>
 </tr>
 </tbody>
 </table>
@@ -1022,7 +1022,7 @@ Warning
 <p>Bear with me, it’s the first example I could think of. I assume you’ll have a better identification strategy.</p>
 </blockquote>
 <p>How would you find a matched control? Well, a single SQL query can do the job.</p>
-<div id="c186d8fe" class="cell" data-execution_count="8">
+<div id="f05c7208" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>time</span>
@@ -1074,8 +1074,8 @@ Warning
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Loaded 1241469 rows. First five rows:
-CPU times: user 1.46 s, sys: 141 ms, total: 1.6 s
-Wall time: 532 ms</code></pre>
+CPU times: user 1.37 s, sys: 150 ms, total: 1.52 s
+Wall time: 510 ms</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <div>
@@ -1160,7 +1160,7 @@ Wall time: 532 ms</code></pre>
 <p>Granted, it’s a relatively complex query - but does the job nicely. And here I couldn’t help it but printing out the time it took as well.</p>
 <p>So, drum rolls… is there any effect?</p>
 <p>Of course not, it was a stupid idea.</p>
-<div id="87eb4a1b" class="cell" data-execution_count="9">
+<div id="69d0b7a9" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>duckdb.sql(</span>
