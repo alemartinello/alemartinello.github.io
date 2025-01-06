@@ -5,7 +5,7 @@ about:
   image: files/profile.jpg
   links:
     - text: '{{< iconify pepicons-pop:cv >}} Resume'
-      href: files/AlessandroTMartinello_resume.pdf
+      href: https://github.com/alemartinello/alemartinello.github.io/blob/fdee40c240fd6728a215355d43b54ae4f60224be/files/AlessandroTMartinello_resume.pdf
     - icon: linkedin
       text: LinkedIn
       href: https://dk.linkedin.com/in/alessandro-martinello-a2766823
