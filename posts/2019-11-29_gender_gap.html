@@ -277,7 +277,7 @@ Figure&nbsp;1: Gender gap in hourly wages for private sector employees, Danish k
 <section id="genesys-and-lo-men-and-women-were-created-equally" class="level2">
 <h2 class="anchored" data-anchor-id="genesys-and-lo-men-and-women-were-created-equally">Genesys: And Lo, Men and Women Were Created Equally</h2>
 <p>Let’s take the extremely simple example of ten working men and ten working women, with the exact same characteristics. Each of the ten men has a level of ability or skill ranging from 1 to 10. Women are generated in exactly the same way. We are in other words in a situation of perfect equality in abilities and skills.</p>
-<div id="f886b636" class="cell" data-execution_count="1">
+<div id="98f02731" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Simulate</span></span>
@@ -421,7 +421,7 @@ Figure&nbsp;1: Gender gap in hourly wages for private sector employees, Danish k
 <li>I do not promote them (ah, the glass ceiling!).</li>
 <li>I pay them less.</li>
 </ol>
-<div id="79396482" class="cell" data-execution_count="2">
+<div id="1a0f7f12" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data.loc[:, <span class="st">'manager'</span>] <span class="op">=</span> (data.loc[:, <span class="st">'ability'</span>]<span class="op">&gt;</span><span class="dv">8</span>) <span class="op">|</span> ((data.loc[:, <span class="st">'gender'</span>]<span class="op">==</span><span class="st">'male'</span>) <span class="op">&amp;</span> (data.loc[:, <span class="st">'ability'</span>]<span class="op">&gt;</span><span class="dv">5</span>))</span>
@@ -596,7 +596,7 @@ Figure&nbsp;1: Gender gap in hourly wages for private sector employees, Danish k
 </section>
 <section id="sec-honest-gg" class="level2">
 <h2 class="anchored" data-anchor-id="sec-honest-gg">Honest Gender Gaps</h2>
-<div id="2fd1c167" class="cell" data-execution_count="3">
+<div id="26f806f6" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>honest_gg <span class="op">=</span> data.groupby(<span class="st">'gender'</span>).mean()</span>
@@ -615,7 +615,7 @@ Figure&nbsp;1: Gender gap in hourly wages for private sector employees, Danish k
 <p><em>Certainly you are making a naïve mistake! Certainly you can’t compare pears and apples! These people are doing different jobs. Certainly you should compare the gender gap within an occupation to obtain the <strong>true</strong> gender gap!</em></p>
 </blockquote>
 <p>Well… Let’s see what happens if we compare gender gaps <em>within</em> occupation titles.</p>
-<div id="04267329" class="cell" data-execution_count="4">
+<div id="356d9607" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adj_gg <span class="op">=</span> data.groupby([<span class="st">'gender'</span>, <span class="st">'manager'</span>])[<span class="st">"wages"</span>].mean().reset_index().pivot(columns<span class="op">=</span><span class="st">'gender'</span>, index<span class="op">=</span><span class="st">'manager'</span>)</span>
@@ -737,7 +737,7 @@ Figure&nbsp;2: A Directed Acyclic Graph (DAG) allows to visualize why the bias o
 <p>The right panel shows that if we regress wage on gender, i.e.&nbsp;we compute the <em>honest</em> gender gap as in <a href="#sec-honest-gg" class="quarto-xref">Section&nbsp;3</a>, what we are actually identify is the full flow of effects going from gender to wage, highlighted in green in the left panel of <a href="#fig-dags" class="quarto-xref">Figure&nbsp;2</a>. That’s great! In our example, that’s the direct wage penalty of 10% plus the indirect effect from lower promotion rates.</p>
 <p>What happens however once we adjust for job title (shown in blue in the right panel)? Well, then we are blocking the effect going from job title to wages, sure. However, we are also opening a back-door path through ability (shown in red). So the total effect we end up estimating is the direct 10% effect, <em>plus a bias component resulting from the fact that the abilities of workers </em>within each job title<em>–and thereby wages–will depend on gender.</em> Because we are discriminating when promoting.</p>
 <p>Confused yet? Let’s look at what happens to the abilities of workers for each job title.</p>
-<div id="e456350b" class="cell" data-execution_count="5">
+<div id="be4dba0d" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ab_gap <span class="op">=</span> data.groupby([<span class="st">'gender'</span>, <span class="st">'manager'</span>])[<span class="st">"ability"</span>].mean().reset_index().pivot(columns<span class="op">=</span><span class="st">'gender'</span>, index<span class="op">=</span><span class="st">'manager'</span>)</span>
