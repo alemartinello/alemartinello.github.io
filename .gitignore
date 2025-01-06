@@ -12,3 +12,6 @@ wheels/
 /.quarto/
 /_site/
 _extensions
+
+# data
+*.parquet
